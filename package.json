@@ -1,0 +1,24 @@
+{
+    "name": "torrent-downloader",
+    "version": "1.0.0",
+    "type": "module",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "start-server": "pm2 start index.js --name my-server",
+        "kill": "pm2 stop my-server"
+    },
+    "dependencies": {
+        "axios": "^1.9.0",
+        "axios-cookiejar-support": "^6.0.2",
+        "cheerio": "^1.0.0",
+        "dotenv": "^16.5.0",
+        "express": "^5.1.0",
+        "ngrok": "^5.0.0-beta.2",
+        "node-fetch": "^3.3.2",
+        "open": "^10.1.2",
+        "path": "^0.12.7",
+        "pm2": "^6.0.6",
+        "tough-cookie": "^5.1.2"
+    }
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Suggester</title>
+    <style>
+        html {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            position: relative;
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            height: 100%;
+            margin: 0;
+            font-family: sans-serif;
+            background: #111;
+            color: #eee;
+            text-align: center;
+        }
+
+        img {
+            max-width: 1000px;
+            max-height: 90vh;
+            border-radius: 8px;
+            margin: 1em 0;
+        }
+
+        .title {
+            font-size: 3.5em;
+            margin-top: 0.5em;
+        }
+
+        .overview {
+            font-size: 2em;
+            line-height: 36px;
+            max-width: 600px;
+            margin: 1em auto;
+        }
+
+        .rating {
+            font-size: 4em;
+            max-width: 600px;
+            margin: 1em auto;
+        }
+
+        .bottomButtons {
+            display: flex;
+            flex-direction: column;
+            position: absolute;
+            align-items: center;
+            justify-content: center;
+            bottom: 20px;
+            left: 0px;
+            right: 0px;
+            width: 100%;
+            margin-bottom: 28px;
+        }
+
+        button {
+            width: 90%;
+            height: 120px;
+            font-size: 2.8em;
+            margin-top: 1em;
+            cursor: pointer;
+            border-width: 0;
+            border-radius: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🎬 Your Movie Suggestion</h1>
+    <div id="content">
+        <p>Loading...</p>
+    </div>
+    <div class="bottomButtons">
+        <button onclick="loadSuggestion()">Get New Suggestion</button>
+        <button id="downloadbutton" onclick="downloadMovie()">Download Now</button>
+    </div>
+
+    <script>
+        async function loadSuggestion() {
+            const res = await fetch('/api/suggestion');
+            const data = await res.json();
+
+            document.getElementById('content').innerHTML = `
+        <img src="${data.poster}" alt="Poster">
+        <div class="title">${data.title}</div>
+        <div class="overview">${data.overview}</div>
+        <div class="rating">${data.rating}</div>
+      `;
+        }
+
+        async function downloadMovie() {
+            console.log("DOWNLOAD!!")
+            const res = await fetch('/movieName');
+            const name = await res.json();
+            try {
+
+                document.getElementById('downloadbutton').innerText = 'Finding torrent...';
+                console.log("Let's Get " + encodeURIComponent(name));
+                const res = await fetch("/open?name=" + encodeURIComponent(name));
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+                document.getElementById('downloadbutton').innerText = '✅ Torrent Found!';
+
+            } catch (err) {
+                console.error("Download failed:", err.message);
+                document.getElementById('downloadbutton').innerText = "Couldn't find torrent";
+            }
+        }
+
+        loadSuggestion();
+    </script>
+</body>
+
+</html>
