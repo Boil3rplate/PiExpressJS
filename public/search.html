@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Downloader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      max-width: 400px;
+      margin: auto;
+    }
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    input, select, button {
+      font-size: 1rem;
+      padding: 0.5rem;
+    }
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <h2>Boban Media Downloader</h2>
+  <div class="form">
+    <input id="name" placeholder="Enter name" />
+    <select id="type">
+      <option value="movie">Movie</option>
+      <option value="tv">TV Show</option>
+    </select>
+    <button id="submit">Submit</button>
+    <p id="status"></p>
+  </div>
+
+  <script>
+    const btn = document.getElementById('submit');
+    const status = document.getElementById('status');
+
+    btn.onclick = async () => {
+      const name = document.getElementById('name').value.trim();
+      const type = document.getElementById('type').value;
+      if (!name) return;
+
+      btn.disabled = true;
+      status.textContent = "Loading...";
+
+      try {
+        const res = await fetch("/open?name=" + encodeURIComponent(name) + "&type=" + type);
+        const text = await res.text();
+        status.textContent = res.ok ? "Started!" : `Error: ${text}`;
+      } catch (e) {
+        status.textContent = "Request failed.";
+      }
+
+      btn.disabled = false;
+    };
+  </script>
+</body>
+</html>
