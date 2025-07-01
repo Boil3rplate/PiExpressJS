@@ -53,7 +53,7 @@ setInterval(async () => {
 // }, 10*1000);
 
 app.get('/open', async (req, res) => {
-    const { name } = req.query;
+    const { name, type } = req.query;
 
     if (!name) {
         return res.status(400).send('Invalid or missing name');
@@ -159,6 +159,9 @@ async function updateSuggestion() {
 }
 
 app.use(express.static('public'));
+app.get('/search', (req, res) => {
+  res.sendFile(__dirname + '/public/search.html');
+});
 
 app.get('/api/suggestion', async (req, res) => {
     await updateSuggestion();
