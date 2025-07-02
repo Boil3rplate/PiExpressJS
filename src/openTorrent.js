@@ -3,24 +3,47 @@ import open from 'open';
 import axios from "axios";
 import fs from 'fs';
 
-export const openTorrent = async (url) => {
-    if (url.startsWith('magnet:')) {
-        await open(url);
-    } else if (url.startsWith('http')) {
-        const filename = path.basename(new URL(url).pathname);
-        const filepath = path.join(process.cwd(), filename);
+import axios from 'axios';
+import path from 'path';
+import fs from 'fs';
+import FormData from 'form-data';
 
-        const res = await axios.get(url, { responseType: 'stream' });
-        const writer = fs.createWriteStream(filepath);
+const QB_URL = 'http://localhost:8080'; // adjust if needed
+const QB_USERNAME = 'admin'; // your qBittorrent username
+const QB_PASSWORD = 'apples'; // your password
+const MOVIE_PATH = 'C:/Users/ancui/PlexMedia/Movies'; // set your custom path
+const TV_PATH = 'C:/Users/ancui/PlexMedia/TV Shows'; // set your custom path
 
-        await new Promise((resolve, reject) => {
-            res.data.pipe(writer);
-            writer.on('finish', resolve);
-            writer.on('error', reject);
-        });
+const login = async () => {
+  await axios.post(`${QB_URL}/api/v2/auth/login`, null, {
+    params: { username: QB_USERNAME, password: QB_PASSWORD },
+    withCredentials: true
+  });
+};
 
-        await open(filepath);
-    } else {
-        console.error('Unsupported URL:', url);
+export const openTorrent = async (url, isMovie) => {
+    let path = MOVIE_PATH;
+    if(!isMovie) {
+        path = TV_PATH;
     }
+  await login();
+
+  if (url.startsWith('magnet:')) {
+    await axios.post(`${QB_URL}/api/v2/torrents/add`, null, {
+      params: { urls: url, savepath: path },
+      withCredentials: true
+    });
+  } else if (url.startsWith('http')) {
+    const res = await axios.get(url, { responseType: 'arraybuffer' });
+    const form = new FormData();
+    form.append('torrents', Buffer.from(res.data), 'file.torrent');
+    form.append('savepath', path);
+
+    await axios.post(`${QB_URL}/api/v2/torrents/add`, form, {
+      headers: form.getHeaders(),
+      withCredentials: true
+    });
+  } else {
+    console.error('Unsupported URL:', url);
+  }
 };

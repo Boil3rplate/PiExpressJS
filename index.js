@@ -64,7 +64,7 @@ app.get('/open', async (req, res) => {
         if (!torrentUrl) return;
 
         console.log("Got torrent: " + torrentUrl)
-        await openTorrent(torrentUrl);
+        await openTorrent(torrentUrl, type === 'Movie');
 
         setTimeout(async () => {
             const torr = await getLatestAddedTorrent();
@@ -193,7 +193,7 @@ app.post('/webhook', express.json(), (req, res) => {
 updateSuggestion();
 
 app.listen(PORT, '::', async () => {
-    const url = await ngrok.connect(PORT);
-    console.log("URL:" + url)
+    //const url = await ngrok.connect(PORT);
+    //console.log("URL:" + url)
     console.log('Server running on IPv6 and IPv4');
 });
