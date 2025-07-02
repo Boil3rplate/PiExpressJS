@@ -191,10 +191,10 @@ asynckit@^0.4.0:
   resolved "https://registry.yarnpkg.com/asynckit/-/asynckit-0.4.0.tgz#c79ed97f7f34cb8f2ba1bc9790bcc366474b4b79"
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
 
-axios-cookiejar-support@^6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/axios-cookiejar-support/-/axios-cookiejar-support-6.0.2.tgz#2d05af898c02335cee54341f7f550fe7f19596ee"
-  integrity sha512-UO/g6DKfVoxnZkZz1NN669bMDjGV3snZnAZGZqIwEd8FdvFI17/rXLyMBm1j1cgtb2O6Jyi4MJ7ll49NPBEMNg==
+axios-cookiejar-support@^6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/axios-cookiejar-support/-/axios-cookiejar-support-6.0.3.tgz#bd7b7c7185dd75e7b2e542a0816b28920460c44c"
+  integrity sha512-hSjQ8xE82ifSUjU+VpT2WCPMB6xSgwvTRPTl4L/ddeEWNGgiYp/AOf4fM2CO7uF054mPhNT7KaqertqI8/BCig==
   dependencies:
     http-cookie-agent "^7.0.1"
 
@@ -815,6 +815,17 @@ form-data@^4.0.0:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
     es-set-tostringtag "^2.1.0"
+    mime-types "^2.1.12"
+
+form-data@^4.0.3:
+  version "4.0.3"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.3.tgz#608b1b3f3e28be0fccf5901fc85fb3641e5cf0ae"
+  integrity sha512-qsITQPfmvMOSAdeyZ+12I1c+CKSstAFAwu+97zrnWAbIr5u8wfsExUzCesVLC8NgHuRUqNN4Zy6UPWUTRGslcA==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    es-set-tostringtag "^2.1.0"
+    hasown "^2.0.2"
     mime-types "^2.1.12"
 
 formdata-polyfill@^4.0.10:
